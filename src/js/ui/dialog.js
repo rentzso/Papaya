@@ -46,7 +46,7 @@ papaya.ui.Dialog.showModalDialog = function (viewer, dialog) {
 
     $(dialog).css({
         position: 'absolute',
-        zIndex: 100,
+        zIndex: 10001,
         left: left,
         top: top
     });

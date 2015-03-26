@@ -73,6 +73,10 @@
     background-color: #DDD;
 }
 
+.papaya-menu-button-container {
+    position: relative;
+}
+
 
 .papaya-menu-filechooser {
     cursor: pointer;

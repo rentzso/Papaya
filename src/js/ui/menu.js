@@ -48,7 +48,7 @@ papaya.ui.Menu.doShowMenu = function (viewer, el, menu, right) {
     pos = $(el).offset();
     eWidth = $(el).outerWidth();
     mWidth = $(menu).outerWidth();
-    left = pos.left + (right ? ((-1 * mWidth) + eWidth) : 5) +  "px";
+    left = (right ? ((-1 * mWidth) + eWidth + 5) : 5) +  "px";//- 420
 
     top = (posV.top) + "px";
     //show the menu directly over the placeholder
@@ -56,7 +56,7 @@ papaya.ui.Menu.doShowMenu = function (viewer, el, menu, right) {
         position: 'absolute',
         zIndex: 100,
         left: left,
-        top: top
+        top: '28px'//"36px"
     });
 
     $(menu).hide().fadeIn(200);
@@ -103,9 +103,10 @@ papaya.ui.Menu.prototype.buildMenuButton = function () {
     html = null;
 
     if (this.icons) {
-        html = "<span id='" + this.buttonId + "' class='" + PAPAYA_MENU_UNSELECTABLE + " " + PAPAYA_MENU_ICON_CSS +
-            " " + (this.isImageButton ? PAPAYA_MENU_BUTTON_CSS : "") + "'" +
-            (this.isRight ? " style='float:right'" : "") + ">" + "<img class='" + PAPAYA_MENU_UNSELECTABLE +
+        html = "<span class='" + PAPAYA_MENU_BUTTON_CONTAINER + "'" + (this.isRight ? " style='float:right'" : "") +
+            "><span id='" + this.buttonId + "' class='" + PAPAYA_MENU_UNSELECTABLE + " " + PAPAYA_MENU_ICON_CSS +
+            " " + (this.isImageButton ? PAPAYA_MENU_BUTTON_CSS : "")  + "'>" +
+            "<img class='" + PAPAYA_MENU_UNSELECTABLE +
             "' style='width:" + papaya.viewer.ColorTable.ICON_SIZE + "px; height:" +
             papaya.viewer.ColorTable.ICON_SIZE + "px; vertical-align:bottom; ";
 
@@ -119,7 +120,7 @@ papaya.ui.Menu.prototype.buildMenuButton = function () {
             html += ("' src='" + this.icons[papaya.utilities.ObjectUtils.bind(this.viewer, papaya.utilities.ObjectUtils.dereferenceIn(this.viewer, this.method))() ? 1 : 0] +
                 "' /></span>");
         } else {
-            html += ("' src='" + this.icons[0] + "' /></span>");
+            html += ("' src='" + this.icons[0] + "' /></span></span>");
         }
     } else if (this.isTitleBar) {
         html = "<div class='" + PAPAYA_MENU_UNSELECTABLE + " " + PAPAYA_MENU_TITLEBAR_CSS + " " + PAPAYA_TITLEBAR_CSS +
@@ -128,8 +129,8 @@ papaya.ui.Menu.prototype.buildMenuButton = function () {
             toolbarHtml.width() + "px;text-align:center;color:" + papaya.ui.Menu.getNiceForegroundColor(this.viewer.bgColor) + "'>" +
             this.label + "</div>";
     } else {
-        html = "<span id='" + this.buttonId + "' class='" + PAPAYA_MENU_UNSELECTABLE + " " +
-            PAPAYA_MENU_LABEL_CSS + "'>" + this.label + "</span>";
+        html = "<span class='" + PAPAYA_MENU_BUTTON_CONTAINER + "'><span id='" + this.buttonId + "' class='" + PAPAYA_MENU_UNSELECTABLE + " " +
+            PAPAYA_MENU_LABEL_CSS + "'>" + this.label + "</span></span>";
     }
 
     toolbarHtml.append(html);
@@ -191,11 +192,15 @@ papaya.ui.Menu.prototype.setMenuButton = function (buttonId) {
 
 
 
-papaya.ui.Menu.prototype.buildMenu = function () {
+papaya.ui.Menu.prototype.buildMenu = function (element) {
     var ctr, html, buttonHtml;
 
     html = "<ul id='" + this.menuId + "' class='" + PAPAYA_MENU_CSS + "'></ul>";
-    this.viewer.container.toolbarHtml.append(html);
+    if (element) {
+        element.append(html);
+    } else {
+        this.viewer.container.toolbarHtml.append(html);
+    }
 
     for (ctr = 0; ctr < this.items.length; ctr += 1) {
         buttonHtml = this.items[ctr].buildHTML(this.menuId);
@@ -227,7 +232,7 @@ papaya.ui.Menu.prototype.showMenu = function () {
 
         if (!isShowing) {
             button = $("#" + this.buttonId);
-            this.buildMenu();
+            this.buildMenu(button.parent());
             menuHtml = $(menuHtmlId);
             menuHtml.hide();
             papaya.ui.Menu.doShowMenu(this.viewer, button[0], menuHtml[0], this.isRight);

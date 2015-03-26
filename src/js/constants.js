@@ -48,6 +48,7 @@ var PAPAYA_MENU_CSS = "papaya-menu",
     PAPAYA_MENU_UNSELECTABLE = "papaya-menu-unselectable",
     PAPAYA_MENU_FILECHOOSER = "papaya-menu-filechooser",
     PAPAYA_MENU_BUTTON_CSS = "papaya-menu-button",
+    PAPAYA_MENU_BUTTON_CONTAINER = "papaya-menu-button-container"
     PAPAYA_MENU_BUTTON_HOVERING_CSS = "papaya-menu-button-hovering",
     PAPAYA_MENU_COLORTABLE_CSS = "papaya-menu-colortable",
     PAPAYA_MENU_INPUT_FIELD = "papaya-menu-input",
